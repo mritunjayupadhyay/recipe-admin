@@ -1,6 +1,13 @@
 .App {
   text-align: center;
 }
+.App .inner-div p {
+  color: blue;
+}
+
+.App  p {
+  color: red;
+}
 
 .App-logo {
   height: 40vmin;
