@@ -60,7 +60,7 @@ const createExtraReducer = (builder) => {
     builder.addCase(extraActions.login.rejected, (state, action) => {
         state.loading = false;
         state.user = null;
-        state.authToken = 'isError';
+        state.authToken = '';
         state.error = action.error.message
     })
 }
