@@ -8,19 +8,6 @@ const initialState = {
     loading: false
 };
 
-// Generates pending, fulfilled and rejected action types
-const callLogin = ({ email, password}) => {
-    return createAsyncThunk('auth/login', () => {
-        const url = `${process.env.REACT_APP_BASE_URL}/login-recipe`;
-        const data = {
-            email, password
-        }
-        return axios
-          .post(url, data,)
-          .then(response => response.data.map(user => user.id))
-    })
-}
-
 function createExtraActions() {
     return {
         login: login()
@@ -33,8 +20,11 @@ function createExtraActions() {
                 email, password
             }
             return axios
-              .post(url, data,)
-              .then(response => response.data.map(user => user.id))
+              .post(url, data)
+              .then(response => {
+                console.log("response from server", response);
+                return response.data;
+              })
         })
     }
 }
@@ -58,17 +48,16 @@ const createReducers = () => {
 const createExtraReducer = (builder) => {
     builder.addCase(extraActions.login.pending, state => {
         state.loading = true;
-        state.authToken = 'isCalled'
     })
     builder.addCase(extraActions.login.fulfilled, (state, action) => {
         state.loading = false
-        state.authToken = 'isFullFilled';
-        state.users = action.payload
+        state.authToken = action.payload.data.token;
+        state.user = action.payload.data.user
         state.error = ''
     })
     builder.addCase(extraActions.login.rejected, (state, action) => {
         state.loading = false;
-        state.users = [];
+        state.user = null;
         state.authToken = 'isError';
         state.error = action.error.message
     })
