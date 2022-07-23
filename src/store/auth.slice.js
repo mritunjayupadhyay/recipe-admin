@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { navigationRouter } from '../helpers/navigation-router';
 const initialState = {
     // initialize state from local storage to enable user to stay logged in
     authToken: JSON.parse(localStorage.getItem('authToken')),
@@ -53,7 +54,8 @@ const createExtraReducer = (builder) => {
         state.loading = false
         state.authToken = action.payload.data.token;
         state.user = action.payload.data.user
-        state.error = ''
+        state.error = '';
+        navigationRouter.navigate('/')
     })
     builder.addCase(extraActions.login.rejected, (state, action) => {
         state.loading = false;
