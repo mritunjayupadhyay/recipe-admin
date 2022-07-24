@@ -23,8 +23,8 @@ function Home() {
                         <li key={recipe.id}>
                             <p>{recipe.name}</p>
                             <div className='header-button-container'>
-                                <Link>Edit</Link>
-                                <Link>Delete</Link>
+                                {/* <Link>Edit</Link>
+                                <Link>Delete</Link> */}
                             </div>
                         </li>
                     )}

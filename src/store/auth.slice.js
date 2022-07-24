@@ -3,7 +3,7 @@ import axios from 'axios';
 import { navigationRouter } from '../helpers/navigation-router';
 const initialState = {
     // initialize state from local storage to enable user to stay logged in
-    authToken: JSON.parse(localStorage.getItem('authToken')),
+    authToken: localStorage.getItem('authToken'),
     user: JSON.parse(localStorage.getItem('user')),
     error: '',
     loading: false
@@ -42,7 +42,7 @@ const createReducers = () => {
         state.authToken = '';
         localStorage.removeItem('user');
         localStorage.removeItem('authToken');
-        // history.navigate('/login');
+        navigationRouter.navigate('/login');
     }
 }
 
@@ -55,12 +55,16 @@ const createExtraReducer = (builder) => {
         state.authToken = action.payload.data.token;
         state.user = action.payload.data.user
         state.error = '';
+        localStorage.setItem('authToken', action.payload.data.token);
+        localStorage.setItem('user', JSON.stringify(action.payload.data.user));
         navigationRouter.navigate('/')
     })
     builder.addCase(extraActions.login.rejected, (state, action) => {
         state.loading = false;
         state.user = null;
         state.authToken = '';
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('user');
         state.error = action.error.message
     })
 }
