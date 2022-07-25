@@ -1,25 +1,31 @@
 import React from 'react';
 import './create.scss';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { recipesActions } from '../../store/recipe.slice';
-
+import RecipeShow from '../../components/recipe-show/RecipeShow';
 import RecipeForm from '../../components/recipe-form/recipe-form';
 
 function Create() {
     const dispatch = useDispatch();
+    const { newRecipe } = useSelector(x => x.recipes);
 
     const getRecipeFormData = (formData) => {
         return dispatch(recipesActions.createRecipe(formData));
-        console.log("form data for create recipe", formData);
+    }
+    const clearNewRecipe = () => {
+        return dispatch(recipesActions.clearNewRecipe());
     }
     return (
         <div className='CreateRecipeComponent'>
-            <div className='CreateRecipeFormContainer'>
-                <RecipeForm getRecipeFormData={getRecipeFormData} />
-            </div>
-        {/* <div className='CreateRecipeFormContainer'>
-            <RecipeForm getRecipeFormData={getRecipeFormData} />
-        </div> */}
+            {newRecipe
+                ? <div className='CreateRecipeDisplayContainer'>
+                    <RecipeShow recipe={newRecipe} />
+                </div>
+                : <div className='CreateRecipeFormContainer'>
+                    <RecipeForm getRecipeFormData={getRecipeFormData} />
+                </div>
+            }
+            <button onClick={() => clearNewRecipe()}>Finish</button>
         </div>
     )
 }

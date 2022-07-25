@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 const initialState = {
     // initialize state from local storage to enable user to stay logged in
     recipes: [],
@@ -70,6 +69,16 @@ function createExtraActions() {
 
 const extraActions = createExtraActions();
 
+function createReducers() {
+    return {
+        clearNewRecipe
+    };
+
+    function clearNewRecipe(state) {
+        state.newRecipe = null
+    }
+}
+
 const createExtraReducer = (builder) => {
     builder.addCase(extraActions?.getRecipes?.pending, state => {
         state.loading = true;
@@ -113,6 +122,7 @@ const createExtraReducer = (builder) => {
 const slice = createSlice({
     name: 'recipes',
     initialState,
+    reducers: createReducers(),
     extraReducers: createExtraReducer
 });
 
