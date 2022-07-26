@@ -4,6 +4,7 @@ const initialState = {
     // initialize state from local storage to enable user to stay logged in
     recipes: [],
     newRecipe: null,
+    showRecipe: null,
     error: '',
     loading: false
 };
@@ -13,11 +14,13 @@ function createExtraActions() {
     return {
         getRecipes: getRecipes(),
         deleteRecipe: deleteRecipe(),
-        createRecipe: createRecipe()
+        createRecipe: createRecipe(),
+        getRecipe: getRecipe(),
+        editRecipe: editRecipe()
     };    
 
     function getRecipes() {
-        return createAsyncThunk('recipe', async () => {
+        return createAsyncThunk('recipes', async () => {
             const url = `${process.env.REACT_APP_BASE_URL}/recipe`;
             return axios
               .get(url)
@@ -28,8 +31,8 @@ function createExtraActions() {
         })
     }
     function deleteRecipe() {
-        return createAsyncThunk('deleteRecipe', async (recipeName) => {
-            const url = `${process.env.REACT_APP_BASE_URL}/recipe/${recipeName}`;
+        return createAsyncThunk('deleteRecipe', async (recipeId) => {
+            const url = `${process.env.REACT_APP_BASE_URL}/recipe/${recipeId}`;
             // const { authToken } = useSelector(x => x.auth);
             const authToken = localStorage.getItem('authToken');
             console.log("from action of delete recipe", url, authToken);
@@ -64,22 +67,56 @@ function createExtraActions() {
             })
         })
     }
-    
+    function getRecipe() {
+        return createAsyncThunk('recipe', async (recipeId) => {
+            const url = `${process.env.REACT_APP_BASE_URL}/recipe/${recipeId}`;
+            return axios
+              .get(url)
+              .then(response => {
+                console.log("response from server", response);
+                return response?.data;
+              })
+        })
+    }
+    function editRecipe() {
+        return createAsyncThunk('editRecipe', async ({recipeId, formData}) => {
+            const url = `${process.env.REACT_APP_BASE_URL}/recipe/${recipeId}`;
+            // const { authToken } = useSelector(x => x.auth);
+            const authToken = localStorage.getItem('authToken');
+            console.log("from action of delete recipe", url, authToken);
+            const data = formData;
+            return axios
+            .put(url, data, {
+                headers: {
+                    token: `Bearer ${authToken}`
+                }
+            })
+            .then(response => {
+                console.log("response from server", response);
+                return response?.data;
+            })
+        })
+    }
 }
 
 const extraActions = createExtraActions();
 
 function createReducers() {
     return {
-        clearNewRecipe
+        clearNewRecipe,
+        removeShowRecipe
     };
 
     function clearNewRecipe(state) {
-        state.newRecipe = null
+        state.newRecipe = null;
+    }
+    function removeShowRecipe(state) {
+        state.showRecipe = null;
     }
 }
 
 const createExtraReducer = (builder) => {
+    // To get list of recipe
     builder.addCase(extraActions?.getRecipes?.pending, state => {
         state.loading = true;
     })
@@ -92,6 +129,8 @@ const createExtraReducer = (builder) => {
         state.loading = false;
         state.error = action?.error?.message
     })
+
+    // To delete a recipe
     builder.addCase(extraActions?.deleteRecipe?.fulfilled, (state, action) => {
         // state.loading = false
         console.log("payload in delete recipe", action.payload);
@@ -105,6 +144,8 @@ const createExtraReducer = (builder) => {
         // state.loading = false;
         state.error = action?.error?.message
     })
+
+    // To create recipe
     builder.addCase(extraActions?.createRecipe?.pending, state => {
         state.loading = true;
     })
@@ -114,6 +155,34 @@ const createExtraReducer = (builder) => {
         state.error = '';
     })
     builder.addCase(extraActions?.createRecipe?.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message
+    })
+
+    // To get one recipe
+    builder.addCase(extraActions?.getRecipe?.pending, state => {
+        state.loading = true;
+    })
+    builder.addCase(extraActions?.getRecipe?.fulfilled, (state, action) => {
+        state.loading = false
+        state.showRecipe = action?.payload?.data
+        state.error = '';
+    })
+    builder.addCase(extraActions?.getRecipe?.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message
+    })
+
+    // To edit one recipe
+    builder.addCase(extraActions?.editRecipe?.pending, state => {
+        state.loading = true;
+    })
+    builder.addCase(extraActions?.editRecipe?.fulfilled, (state, action) => {
+        state.loading = false
+        state.showRecipe = action?.payload?.data
+        state.error = '';
+    })
+    builder.addCase(extraActions?.editRecipe?.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message
     })

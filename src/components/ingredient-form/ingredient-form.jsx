@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
-import './recipe-form.scss';
+import './ingredient-form.scss';
 
-function RecipeForm({ getRecipeFormData }) {
-  const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
+function IngredientForm({ getIngredientFormData, formData }) {
+  const propName = formData?.name || '';
+  const propDes = formData?.description || '';
+  const propAmount = formData?.amount || '';
+  const [name, setName] = useState(propName);
+  const [description, setDescription] = useState(propDes);
+  const [amount, setAmount] = useState(propAmount);
     // const [recipePic, setRecipePic] = useState('')
 
     const submitFunc = () => {
-        return getRecipeFormData({
-          name, description
+        return getIngredientFormData({
+          name, description, amount,
+          id: formData?.id
         });
     }
   return (
@@ -25,6 +30,12 @@ function RecipeForm({ getRecipeFormData }) {
             placeholder="description"
             onChange={(e) => setDescription(e.target.value)}
             />
+            <input 
+            type="text" 
+            value={amount}  
+            placeholder="amount"
+            onChange={(e) => setAmount(e.target.value)}
+            />
             <button 
             type='button' 
             className={`submitButton`} 
@@ -34,4 +45,4 @@ function RecipeForm({ getRecipeFormData }) {
   )
 }
 
-export default RecipeForm;
+export default IngredientForm;

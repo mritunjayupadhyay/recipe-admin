@@ -33,7 +33,7 @@ function App() {
           </PrivateRoute>
         } />
         <Route 
-        path=":recipeId/edit" 
+        path="/:recipeId/edit" 
         element={
           <PrivateRoute>
             <Edit />

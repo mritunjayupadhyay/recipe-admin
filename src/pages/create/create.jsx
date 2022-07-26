@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { recipesActions } from '../../store/recipe.slice';
 import RecipeShow from '../../components/recipe-show/RecipeShow';
 import RecipeForm from '../../components/recipe-form/recipe-form';
+import Ingredients from '../../components/ingredients/Ingredients';
 
 function Create() {
     const dispatch = useDispatch();
@@ -25,6 +26,7 @@ function Create() {
                     <RecipeForm getRecipeFormData={getRecipeFormData} />
                 </div>
             }
+            <Ingredients recipeName={newRecipe?.name} />
             <button onClick={() => clearNewRecipe()}>Finish</button>
         </div>
     )

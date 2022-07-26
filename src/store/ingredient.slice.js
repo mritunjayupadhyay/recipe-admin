@@ -13,12 +13,13 @@ function createExtraActions() {
     return {
         getIngredients: getIngredients(),
         deleteIngredient: deleteIngredient(),
-        createIngredient: createIngredient()
+        createIngredient: createIngredient(),
+        editIngredient: editIngredient()
     };    
 
     function getIngredients() {
-        return createAsyncThunk('getIngredients', async () => {
-            const url = `${process.env.REACT_APP_BASE_URL}/recipe`;
+        return createAsyncThunk('getIngredients', async (recipeId) => {
+            const url = `${process.env.REACT_APP_BASE_URL}/recipe/${recipeId}/ingredients`;
             return axios
               .get(url)
               .then(response => {
@@ -28,8 +29,8 @@ function createExtraActions() {
         })
     }
     function deleteIngredient() {
-        return createAsyncThunk('deleteIngredient', async (recipeName) => {
-            const url = `${process.env.REACT_APP_BASE_URL}/recipe/${recipeName}`;
+        return createAsyncThunk('deleteIngredient', async ({recipeId, ingredientId}) => {
+            const url = `${process.env.REACT_APP_BASE_URL}/recipe/${recipeId}/ingredients/${ingredientId}`;
             // const { authToken } = useSelector(x => x.auth);
             const authToken = localStorage.getItem('authToken');
             console.log("from action of delete recipe", url, authToken);
@@ -46,8 +47,8 @@ function createExtraActions() {
         })
     }
     function createIngredient() {
-        return createAsyncThunk('createIngredient', async (formData) => {
-            const url = `${process.env.REACT_APP_BASE_URL}/recipe/`;
+        return createAsyncThunk('createIngredient', async ({recipeId, formData}) => {
+            const url = `${process.env.REACT_APP_BASE_URL}/recipe/${recipeId}/ingredients`;
             // const { authToken } = useSelector(x => x.auth);
             const authToken = localStorage.getItem('authToken');
             console.log("from action of delete recipe", url, authToken);
@@ -64,7 +65,25 @@ function createExtraActions() {
             })
         })
     }
-    
+    function editIngredient() {
+        return createAsyncThunk('editIngredient', async ({recipeId, ingredientId, formData}) => {
+            const url = `${process.env.REACT_APP_BASE_URL}/recipe/${recipeId}/ingredients/${ingredientId}`;
+            // const { authToken } = useSelector(x => x.auth);
+            const authToken = localStorage.getItem('authToken');
+            console.log("from action of delete recipe", url, authToken);
+            const data = formData;
+            return axios
+            .put(url, data, {
+                headers: {
+                    token: `Bearer ${authToken}`
+                }
+            })
+            .then(response => {
+                console.log("response from server", response);
+                return response?.data;
+            })
+        })
+    }
 }
 
 const extraActions = createExtraActions();
@@ -107,6 +126,19 @@ const createExtraReducer = (builder) => {
         state.loading = false;
         state.error = action?.error?.message
     })
+    builder.addCase(extraActions?.editIngredient?.pending, state => {
+        state.loading = true;
+    })
+    builder.addCase(extraActions?.editIngredient?.fulfilled, (state, action) => {
+        state.loading = false
+        console.log("payload", action.payload);
+        // state.newIngredient = action?.payload?.data
+        state.error = '';
+    })
+    builder.addCase(extraActions?.editIngredient?.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message
+    })
 }
 
 const slice = createSlice({
@@ -116,6 +148,6 @@ const slice = createSlice({
 });
 
 // exports
-export const recipesActions = { 
+export const ingredientsActions = { 
     ...slice.actions, ...extraActions };
-export const recipesReducer = slice.reducer;
+export const ingredientsReducer = slice.reducer;
