@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import { Routes, Route,useNavigate, useLocation, Navigate } from "react-router-dom";
 import {Home}  from './pages/home/home.jsx';
 import Auth from './pages/auth/Auth';
@@ -49,6 +49,7 @@ function App() {
         <Route path="/login" element={<Auth />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+      <button>Check if Css work</button>
     </div>
   );
 }

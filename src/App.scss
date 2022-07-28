@@ -1,7 +1,16 @@
+@import './styles/index.scss';
+
+button {
+  background-color: $primary;
+  color: $secondary-text-color;
+}
+
 .App {
   text-align: center;
   background-color: #ddd;
   min-height: 100vh;
+
+  font-family: 'League Spartan', sans-serif;
 }
 .App .inner-div p {
   color: blue;
