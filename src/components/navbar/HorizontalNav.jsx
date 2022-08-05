@@ -13,7 +13,6 @@ function HorizontalNav({ show }) {
     }
     const logout = () => {
         return dispatch(authActions.logout());
-        console.log("log out is clicked");
     }
   return (
     <div className='HorizontalNav'>

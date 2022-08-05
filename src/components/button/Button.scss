@@ -6,16 +6,27 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    border-radius: 5px;
+    font-family: $font-family;
     &.small {
         min-width: 70px;
-        height: 35px;
-        font-size: 11px;
-        font-family: $font-family;
-        border-radius: 5px;
+        height: 30px;
+        font-size: 12px;
         letter-spacing: 0.5px;
+    }
+    &.medium {
+        min-width: 120px;
+        height: 35px;
+        font-size: 13px;
+        letter-spacing: 1px;
     }
     &.primary {
         color: $secondary-text-color;
         background-color: $primary;
+    }
+    &.danger {
+        color: $secondary-text-color;
+        background-color: $danger;
     }
 }

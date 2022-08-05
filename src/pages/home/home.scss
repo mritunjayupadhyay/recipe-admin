@@ -1,6 +1,53 @@
+@import '../../styles/index.scss';
 .HomePage {
-    padding: 40px;
-    p {
-        color: red;
+    .component-heading {
+        display: flex;
+        justify-content: space-between;
+        h1 {
+            font-family: $font-family;
+            color: $primary-text-color;
+            font-size: 20px;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+    }
+    .listContainer {
+        background-color: $secondary;
+        border-radius: 7px;
+        padding: 10px 5px;
+        @media screen and (min-width: $desktop){
+            padding: 20px 10px;
+        }
+        @media screen and (min-width: $desktop){
+            padding: 20px 15px;
+        }
+        .list-heading {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row-reverse;
+            align-items: center;
+            height: 65px;
+            overflow: hidden;
+        }
+        .recipe-list {
+            ul {
+                li.list-header {
+                    display: grid;
+                    grid-template-columns: 1fr 3fr 2fr 1fr 1fr;
+                    div {
+                        padding: 15px 10px;
+                        text-align: left;
+                        display: flex;
+                        align-items: center;
+                        span {
+                            color: $fade-primary-text-color;
+                            font-size: 12px;
+                            text-transform: uppercase;
+                            font-weight: 500;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

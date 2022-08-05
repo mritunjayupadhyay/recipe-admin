@@ -1,5 +1,5 @@
 import './App.scss';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Routes, Route,useNavigate, useLocation, Navigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import {Home}  from './pages/home/home.jsx';
@@ -53,7 +53,6 @@ function App() {
         <Route path="/login" element={<Auth />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
-      <button>Check if Css work</button>
     </div>
   );
 }
