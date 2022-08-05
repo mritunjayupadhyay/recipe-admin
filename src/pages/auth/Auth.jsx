@@ -1,7 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Login from './Login';
 import './auth.scss';
+import { navigationRouter } from '../../helpers/navigation-router';
+import { useSelector } from 'react-redux';
 function Auth() {
+  const { user } = useSelector(x => x.auth);
+  useEffect(() => {
+    return () => {
+      if (user) {
+        navigationRouter.navigate('/')
+      }
+    };
+  }, [user])
   return (
     <div className='AuthPage'>
         <div className='auth-page-container'>

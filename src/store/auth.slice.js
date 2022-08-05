@@ -32,7 +32,7 @@ function createExtraActions() {
 
 const extraActions = createExtraActions();
 
-const createReducers = () => {
+function createReducers() {
     return {
         logout
     };
@@ -72,7 +72,7 @@ const createExtraReducer = (builder) => {
 const slice = createSlice({
     name: 'auth',
     initialState,
-    reducers: createReducers,
+    reducers: createReducers(),
     extraReducers: createExtraReducer
 });
 

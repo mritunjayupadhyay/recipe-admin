@@ -1,0 +1,21 @@
+@import '../../styles/index.scss';
+button {
+    border: 0;
+    outline: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &.small {
+        min-width: 70px;
+        height: 35px;
+        font-size: 11px;
+        font-family: $font-family;
+        border-radius: 5px;
+        letter-spacing: 0.5px;
+    }
+    &.primary {
+        color: $secondary-text-color;
+        background-color: $primary;
+    }
+}
