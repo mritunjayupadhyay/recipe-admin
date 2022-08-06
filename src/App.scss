@@ -5,9 +5,14 @@ button {
   color: $secondary-text-color;
 }
 
+body {
+  margin: 0;
+  background-color: $ternary;
+}
+
 .App {
   text-align: center;
-  background-color: #ddd;
+  background-color: $ternary;
   min-height: 100vh;
 
   font-family: 'League Spartan', sans-serif;
