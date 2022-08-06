@@ -57,7 +57,7 @@ function Home() {
                             {recipes.map(recipe =>
                                 <RecipeListItem 
                                     recipe={recipe} 
-                                    deleteRecipe={deleteRecipe} 
+                                    deleteRecipe={() => deleteRecipe()} 
                                 />
                             )}
                         </ul>

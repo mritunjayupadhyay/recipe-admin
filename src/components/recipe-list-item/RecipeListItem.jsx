@@ -22,7 +22,7 @@ function RecipeListItem({ recipe, deleteRecipe }) {
           buttonText={'Delete'}
           size="small"
           buttonType="danger"
-          onClickFunc={deleteRecipe(recipe?.id)}
+          onClickFunc={() => deleteRecipe(recipe?.id)}
         />
       </div>
     </li>
