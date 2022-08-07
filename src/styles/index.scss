@@ -1,2 +1,7 @@
 // SETTINGS - contains fonts, colors definitions, mixins, etc
 @import './settings/setting.scss';
+.mobileView {
+    @media screen and (min-width: $desktop) {
+        display: none !important;
+    }
+}

@@ -44,7 +44,13 @@ function createExtraActions() {
             })
             .then(response => {
                 console.log("response from server", response);
-                return response?.data;
+                const { data, error } = response.data;
+                if (error === false) {
+                    return {
+                        recipeId
+                    }
+                }
+                return { recipeId: null };
             })
         })
     }
@@ -134,10 +140,8 @@ const createExtraReducer = (builder) => {
     builder.addCase(extraActions?.deleteRecipe?.fulfilled, (state, action) => {
         // state.loading = false
         console.log("payload in delete recipe", action.payload);
-        if (action.payload.error === false) {
-            state.recipes = [...state.recipes]
-                            .filter((item) => item?.name !== action?.meta?.arg);
-        }
+        state.recipes = [...state.recipes]
+                            .filter((item) => item?.id !== action.payload.recipeId);
         state.error = '';
     })
     builder.addCase(extraActions?.deleteRecipe?.rejected, (state, action) => {

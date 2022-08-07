@@ -11,8 +11,8 @@ function Home() {
     const dispatch = useDispatch();
     const { recipes } = useSelector(x => x.recipes);
     const { user } = useSelector(x => x.auth);
-    const deleteRecipe = (recipeName) => {
-        return dispatch(recipesActions.deleteRecipe(recipeName));
+    const deleteRecipe = (recipeId) => {
+        return dispatch(recipesActions.deleteRecipe(recipeId));
     }
     const createRecipe = () => {
         navigationRouter.navigate('/create')
@@ -56,8 +56,9 @@ function Home() {
                             </li>
                             {recipes.map(recipe =>
                                 <RecipeListItem 
+                                    key={recipe.id}
                                     recipe={recipe} 
-                                    deleteRecipe={() => deleteRecipe()} 
+                                    deleteRecipe={(id) => deleteRecipe(id)} 
                                 />
                             )}
                         </ul>
