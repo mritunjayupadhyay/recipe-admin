@@ -15,6 +15,8 @@ function Login() {
     }
     return (
         <form className='AuthFormComponent'>
+            <h1>Login Panel</h1>
+            <p>Please enter the Login credential to proceed</p>
             <input 
             type="text" 
             value={email}  
