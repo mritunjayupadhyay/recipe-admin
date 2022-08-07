@@ -1,0 +1,68 @@
+@import '../../styles/index.scss';
+
+.dropdownContainer {
+    display: flex;
+    align-items: center;
+    background-color: $ternary;
+    justify-items: center;
+    position: relative;
+    width: 100%;
+    min-width: 80px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 5px;
+    &.large {
+        min-width: 120px;
+        height: 35px;
+        font-size: 13px;
+        letter-spacing: 1px;
+    }
+    .dropdownTitle {
+        display: flex;
+        align-items: center;
+        color: $primary-text-color;
+        font-family: $font-family;
+        font-size: 12px;
+        letter-spacing: 0.5px;
+        justify-content: center;
+        margin: 0 auto;
+        span.dropdownText {
+            padding-right: 3px;
+            color: $primary-text-color;
+            text-transform: capitalize;
+            font-size: 12px;
+            &:hover {
+                color: $primary; 
+            }
+        }
+        &:hover {
+            color: $primary; 
+        }
+    }
+    .dropdownList {
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 35px;
+        z-index: 100; 
+        background-color: #ffffff;
+            width: fit-content;
+            border-radius: 5px;
+        .dropdown-item-container {
+            padding: 10px 15px;
+            &:first-child {
+                padding-bottom: 0;
+            }
+        }
+    }
+
+    .dropdownListItem {
+        align-items: center;
+        background-color: $primary-text-color;
+        border-radius: 5px;
+        display: grid;
+        justify-items: center;
+        margin-top: 15;
+        min-height: 50px;
+    }
+}

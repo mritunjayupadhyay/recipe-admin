@@ -1,0 +1,42 @@
+.AuthPage {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .auth-page-container {
+        width: 90%;
+        max-width: 400px;
+        border: 2px solid #07ad90;
+        padding: 15px;
+        background-color: #fff;
+        .header-button-container {
+            height: 35px;
+            width: 100%;
+            display: flex;
+            button {
+                width: 50%;
+                background-color: transparent;
+                border: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: #000;
+                border: 1px solid lightgrey;
+                font-size: 20px;
+                border-radius: 2px;
+                &.active {
+                    background-color: #07ad90;
+                    color: #fff;
+                }
+                &.loginButton {
+                    border-right: 0;
+                }
+                &.registerButton {
+                    border-left: 0;
+                }
+            }
+        }
+    }
+    
+}
