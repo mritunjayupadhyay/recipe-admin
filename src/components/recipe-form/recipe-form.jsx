@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Button from '../button/Button';
 import './recipe-form.scss';
 
 function RecipeForm({ getRecipeFormData, formData }) {
@@ -26,11 +27,12 @@ function RecipeForm({ getRecipeFormData, formData }) {
         placeholder="description"
         onChange={(e) => setDescription(e.target.value)}
       />
-      <button
-        type='button'
-        className={`submitButton`}
-        onClick={() => submitFunc()}
-      >Submit</button>
+      <Button
+        size={'large'}
+        buttonText={'Create Recipe'}
+        buttonType={'primary'}
+        onClickFunc={() => submitFunc()}
+      />
     </form>
   )
 }

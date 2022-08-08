@@ -5,6 +5,7 @@ import { recipesActions } from '../../store/recipe.slice';
 import RecipeShow from '../../components/recipe-show/RecipeShow';
 import RecipeForm from '../../components/recipe-form/recipe-form';
 import Ingredients from '../../components/ingredients/Ingredients';
+import Container from '../../components/container/Container';
 
 function Create() {
     const dispatch = useDispatch();
@@ -18,14 +19,22 @@ function Create() {
     }
     return (
         <div className='CreateRecipeComponent'>
-            {newRecipe
-                ? <div className='CreateRecipeDisplayContainer'>
-                    <RecipeShow recipe={newRecipe} />
+            <Container>
+                <div className='component-heading'>
+                    <h1>Add Recipe & It's Ingredients</h1>
                 </div>
-                : <div className='CreateRecipeFormContainer'>
-                    <RecipeForm getRecipeFormData={getRecipeFormData} />
+                <div className="whiteContainer">
+                    {newRecipe
+                        ? <div className='CreateRecipeDisplayContainer'>
+                            <RecipeShow recipe={newRecipe} />
+                        </div>
+                        : <div className='CreateRecipeFormContainer'>
+                            <RecipeForm getRecipeFormData={getRecipeFormData} />
+                        </div>
+                    }
                 </div>
-            }
+            </Container>
+
             <Ingredients recipeName={newRecipe?.name} />
             <button onClick={() => clearNewRecipe()}>Finish</button>
         </div>

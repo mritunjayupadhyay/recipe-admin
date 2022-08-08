@@ -1,32 +1,43 @@
+@import '../../styles/index.scss';
+
 .RecipeFormComponent {
     width: 100%;
     padding-top: 40px;
+    h2 {
+      font-family: $font-family;
+      color: $primary-text-color;
+      font-size: 18px;
+      letter-spacing: 1px;
+      font-weight: 500;
+      padding-bottom: 20px;
+    }
     p {
         color: red;
     }
     input, textarea {
-        font-family: "Roboto", sans-serif;
+        font-family: $font-family;
         outline: 0;
-        background: #f2f2f2;
+        background: $ternary;
         width: 100%;
         border: 0;
         margin: 0 0 15px;
         padding: 15px;
         box-sizing: border-box;
         font-size: 14px;
+        border-radius: 5px;
       }
-      button {
-        font-family: "Roboto", sans-serif;
-        text-transform: uppercase;
-        outline: 0;
-        background: #07ad90;
-        width: 100%;
-        border: 0;
-        padding: 15px;
-        color: #FFFFFF;
-        font-size: 14px;
-        -webkit-transition: all 0.3 ease;
-        transition: all 0.3 ease;
-        cursor: pointer;
-      }
+      // button {
+      //   font-family: "Roboto", sans-serif;
+      //   text-transform: uppercase;
+      //   outline: 0;
+      //   background: #07ad90;
+      //   width: 100%;
+      //   border: 0;
+      //   padding: 15px;
+      //   color: #FFFFFF;
+      //   font-size: 14px;
+      //   -webkit-transition: all 0.3 ease;
+      //   transition: all 0.3 ease;
+      //   cursor: pointer;
+      // }
 }

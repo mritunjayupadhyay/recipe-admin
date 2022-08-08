@@ -17,7 +17,7 @@ function IngredientForm({ getIngredientFormData, formData }) {
         });
     }
   return (
-    <form className='RecipeFormComponent'>
+    <form className='IngredientFormComponent'>
       <h2>Create Recipe</h2>
             <input 
             type="text" 
