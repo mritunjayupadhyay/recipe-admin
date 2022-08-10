@@ -10,6 +10,7 @@ import Edit from './pages/edit/edit';
 import Display from './pages/display/display';
 import Create from './pages/create/create';
 import HorizontalNav from './components/navbar/HorizontalNav';
+import ImageUpload from './pages/uploadImage/imageUpload';
 function App() {
   navigationRouter.navigate = useNavigate();
   navigationRouter.location = useLocation();
@@ -20,14 +21,12 @@ function App() {
   // }
   return (
     <div className="App">
-      <HorizontalNav show={!!(user)} />
+      <HorizontalNav show={false} />
       <Routes>
         <Route 
         path="/" 
         element={
-          <PrivateRoute>
-            <Home />
-          </PrivateRoute>
+          <ImageUpload />
         } />
         <Route 
         path="/create" 
