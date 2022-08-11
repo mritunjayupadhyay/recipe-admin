@@ -12,6 +12,7 @@ function Create() {
     const { newRecipe } = useSelector(x => x.recipes);
 
     const getRecipeFormData = (formData) => {
+        console.log("form data after create", formData);
         return dispatch(recipesActions.createRecipe(formData));
     }
     const clearNewRecipe = () => {
@@ -35,7 +36,7 @@ function Create() {
                 </div>
             </Container>
 
-            <Ingredients recipeName={newRecipe?.name} />
+            {newRecipe && <Ingredients recipeName={newRecipe?.name} />}
             <button onClick={() => clearNewRecipe()}>Finish</button>
         </div>
     )

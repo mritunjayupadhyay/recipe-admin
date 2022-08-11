@@ -3,29 +3,29 @@ import React, { useState, useEffect } from 'react';
 import { MdOutlinePhotoSizeSelectActual, MdOutlineModeEditOutline } from 'react-icons/md';
 import './upload-image.scss'
 
-function ImageUpload({ title, handleChangeFunc, image }) {
-  const [img, setImg] = useState(image);
+function ImageUpload({ title, handleChangeFunc, image, pathString }) {
+  const [loading, setLoading] = useState(false);
 
   const handleChange = async (event) => {
     if (!event) return;
     const files = event?.target?.files;
     if (files && files?.length) {
       const file = files[0];
-      handleChangeFunc(file);
-      return;
-      console.log("file uploaded", file.type);
-      const url = `${process.env.REACT_APP_BASE_URL}/image-upload/signed-url/?bucket=school-management-01&key=profile`;
+      // handleChangeFunc(file);
+      console.log("file uploaded", file.type, pathString);
+      const url = `${process.env.REACT_APP_BASE_URL}/image-upload/signed-url/?bucket=${process.env.REACT_APP_BUCKET}&key=${pathString}&fixedPath=N`;
       const signedUrlData = await axios.get(url);
       console.log("signed url data", signedUrlData.data)
       if (signedUrlData && signedUrlData?.data?.error === false) {
-        console.log("ready to post data to aws");
-        const signedUrl = signedUrlData?.data?.data;
-        const postedImageUrl = await axios.put(signedUrl, file, {
+        const signedUrl = signedUrlData?.data?.data?.url;
+        console.log("ready to post data to aws", signedUrl);
+        await axios.put(signedUrl, file, {
           headers: {
             'Content-Type': file.type
           }
         });
-        console.log("this is posted url", postedImageUrl);
+        handleChangeFunc(signedUrlData?.data?.data?.key);
+        console.log("this is posted url", signedUrlData);
       }
     }
     console.log("event", event);
@@ -41,7 +41,7 @@ function ImageUpload({ title, handleChangeFunc, image }) {
             </div>
             :
             <div className='show-image'>
-              <img src={URL.createObjectURL(image)} alt="" />
+              <img src={`${process.env.REACT_APP_S3_URL_PREFIX}/${image}`} alt="" />
             </div>
         }
         <label htmlFor="hidden-image-upload-input" className='circle-image-button'>

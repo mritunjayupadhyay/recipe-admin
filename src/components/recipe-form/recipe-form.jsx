@@ -10,15 +10,14 @@ function RecipeForm({ getRecipeFormData, formData }) {
   const [name, setName] = useState(propName);
   const [description, setDescription] = useState(propDes);
   const [recipeImage, setRecipeImage] = useState(propImage);
-  // const [recipePic, setRecipePic] = useState('')
   const submitFunc = () => {
     return getRecipeFormData({
-      name, description
+      name, description, recipePic: recipeImage
     });
   }
   const handleImageChange = (data) => {
-    console.log("handle image change", data);
-    setRecipeImage(data);
+    console.log("is this been called", data);
+    setRecipeImage(data)
   }
   return (
     <form className='RecipeFormComponent'>
@@ -26,8 +25,9 @@ function RecipeForm({ getRecipeFormData, formData }) {
       <div className='image-upload-container'>
         <ImageUpload
         title={'Add Recipe Image'}
-        handleChangeFunc={(data) => setRecipeImage(data)} 
+        handleChangeFunc={(data) => handleImageChange(data)} 
         image={recipeImage}
+        pathString={'recipe_create'}
         />
       </div>
       <input
