@@ -1,0 +1,54 @@
+@import '../../styles/index.scss';
+.ImageUpload {
+    width: inherit;
+    padding-right: 15px;
+    p.image-upload-title {
+        font-family: "League Spartan", sans-serif;
+        color: $primary-text-color;
+        font-size: 12px;
+        letter-spacing: 1px;
+        font-weight: 500;
+        margin-bottom: 5px;
+        text-align: left;
+        padding-left: 3px;
+        text-transform: capitalize;
+    }
+    .image-input-placeholder {
+        position: relative;
+        border: 3px solid #ffffff;
+        border-radius: 6px;
+        background-color: transparent;
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+        .show-image {
+            width: inherit;
+            img {
+                max-width: 100%;
+            }
+        }
+        label.circle-image-button {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: white;
+            position: absolute;
+            top: -12.5px;
+            right: -12.5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            input.hidden-input {
+                width: 0;
+                height: 0;
+                overflow: hidden;
+                opacity: 0;
+                border: 0;
+                background-color: transparent;
+                margin: 0;
+                padding: 0;
+            }
+        }
+    }
+}

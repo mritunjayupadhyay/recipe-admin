@@ -2,7 +2,7 @@
 
 .RecipeFormComponent {
     width: 100%;
-    padding-top: 40px;
+    padding-top: 10px;
     h2 {
       font-family: $font-family;
       color: $primary-text-color;
@@ -10,6 +10,9 @@
       letter-spacing: 1px;
       font-weight: 500;
       padding-bottom: 20px;
+    }
+    .image-upload-container {
+      padding-bottom: 30px;
     }
     p {
         color: red;
