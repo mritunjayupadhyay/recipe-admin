@@ -29,11 +29,13 @@
 
         .list-heading {
             display: flex;
-            justify-content: space-between;
             flex-direction: row-reverse;
             align-items: center;
             height: 65px;
             overflow: hidden;
+            button {
+                margin-right: 10px;
+            }
         }
 
         .recipe-list {

@@ -4,7 +4,8 @@ import Button from '../button/Button';
 import { navigationRouter } from '../../helpers/navigation-router';
 import DropdownComponent from '../dropdown/Dropdown';
 import './recipe-list-item.scss';
-function RecipeListItem({ recipe, deleteRecipe }) {
+import Checkbox from '../checkbox/Checkbox';
+function RecipeListItem({ recipe, deleteRecipe, selectRecipe }) {
   const clickAction = (text) => {
     if (text.toLowerCase() === 'edit') {
       navigationRouter.navigate(`${recipe?.id}/edit`)
@@ -13,10 +14,17 @@ function RecipeListItem({ recipe, deleteRecipe }) {
       deleteRecipe(recipe?.id);
     }
   }
+
   return (
     <li className='RecipeListItem' key={recipe?.id}>
       <div className='recipe-item-container'>
+      <Checkbox
+          title={''}
+          name={recipe?.id} 
+          handleCheckboxClick={(data) => selectRecipe(data)}
+        />
       <div className='text-container'>
+        
         <span>{recipe?.name}</span>
       </div>
       </div>
