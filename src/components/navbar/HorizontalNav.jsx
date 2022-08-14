@@ -4,6 +4,7 @@ import { authActions } from '../../store/index';
 
 import Button from '../button/Button';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 function HorizontalNav({ show }) {
     const dispatch = useDispatch();
@@ -17,8 +18,9 @@ function HorizontalNav({ show }) {
   return (
     <div className='HorizontalNav'>
         <div className='inner-container'>
-            <div>
-                <span>Logo</span>
+            <div className='logo-container'>
+                <Link to="/">
+                <span>Logo</span></Link>
             </div>
             <div>
                 <Button 

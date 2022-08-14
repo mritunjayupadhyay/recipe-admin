@@ -1,0 +1,40 @@
+@import '../../styles/index.scss';
+
+.IngredientShowComponent {
+  .form-container {
+    padding: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    input {
+      font-family: $font-family;
+      outline: 0;
+      background: $ternary;
+      border: 0;
+      margin: 0 0 15px;
+      padding: 15px;
+      box-sizing: border-box;
+      font-size: 14px;
+      border-radius: 5px;
+    }
+    input,
+      .buttonContainer {
+        width: 100%;
+  
+        @media screen and (min-width: $tablet) {
+          width: 48%;
+        }
+  
+        @media screen and (min-width: $desktop) {
+          width: 24%;
+        }
+      }
+    .buttonContainer {
+      display: flex;
+      justify-content: space-around;
+    }
+  }
+
+ 
+}

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Button from '../../components/button/Button';
 import Container from '../../components/container/Container';
+import LoadingOne from '../../components/loading/LoadingOne';
 import RecipeListItem from '../../components/recipe-list-item/RecipeListItem';
 import { navigationRouter } from '../../helpers/navigation-router';
 import { recipesActions } from '../../store/recipe.slice';
@@ -9,8 +10,7 @@ import './home.scss';
 
 function Home() {
     const dispatch = useDispatch();
-    const { recipes } = useSelector(x => x.recipes);
-    const { user } = useSelector(x => x.auth);
+    const { recipes, loading } = useSelector(x => x.recipes);
     const deleteRecipe = (recipeId) => {
         return dispatch(recipesActions.deleteRecipe(recipeId));
     }
@@ -29,6 +29,7 @@ function Home() {
                     <h1>Recipe List</h1>
                 </div>
                 <div className='listContainer'>
+                    {loading && <LoadingOne />}
                     <div className='list-heading'>
                         <Button
                             buttonText={'Add New Recipe'}
@@ -44,13 +45,13 @@ function Home() {
                                 <div>
                                 <span>name</span>
                                 </div>
-                                <div>
+                                <div className='tabletView'>
                                 <span>description</span>
                                 </div>
-                                <div>
+                                <div style={{ justifyContent: 'center'}}>
                                 <span>picture</span>
                                 </div>
-                                <div>
+                                <div className='action-button-header'>
                                 <span></span>
                                 </div>
                             </li>
@@ -64,9 +65,7 @@ function Home() {
                         </ul>
                         : <div><p>No Recipe</p></div>
                     }
-                    </div>
-
-                    
+                    </div>                   
                 </div>
             </Container>
 

@@ -34,9 +34,8 @@ function DropdownComponent({title, list, onClickFunc}) {
             //   <button key={index} className={'dropdownListItem'} onClick={() => onClick(listItem)}>
             //     <span>{listItem}</span>
             //   </button>
-            <div className="dropdown-item-container">
+            <div className="dropdown-item-container" key={listItem}>
                 <Button
-                    key={listItem}
                     buttonText={listItem}
                     size="small"
                     buttonType={buttonType}

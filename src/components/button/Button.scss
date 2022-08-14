@@ -35,4 +35,12 @@ button {
         color: $secondary-text-color;
         background-color: $danger;
     }
+    &.warning {
+        color: $secondary-text-color;
+        background-color: #FF8800;
+    }
+    &.default {
+        color: $secondary;
+        background-color: $ternary;
+    }
 }
