@@ -1,47 +1,64 @@
 import React, { useState } from 'react';
 import './ingredient-form.scss';
+import Button from '../button/Button';
 
-function IngredientForm({ getIngredientFormData, formData }) {
+function IngredientForm({ getIngredientFormData, formData, cancelFunc }) {
   const propName = formData?.name || '';
   const propDes = formData?.description || '';
   const propAmount = formData?.amount || '';
   const [name, setName] = useState(propName);
   const [description, setDescription] = useState(propDes);
   const [amount, setAmount] = useState(propAmount);
-    // const [recipePic, setRecipePic] = useState('')
+  // const [recipePic, setRecipePic] = useState('')
 
-    const submitFunc = () => {
-        return getIngredientFormData({
-          name, description, amount,
-          id: formData?.id
-        });
-    }
+  const submitFunc = () => {
+    return getIngredientFormData({
+      name, description, amount,
+      id: formData?.id
+    });
+  }
   return (
-    <form className='RecipeFormComponent'>
-      <h2>Create Recipe</h2>
-            <input 
-            type="text" 
-            value={name}  
+    <form className='IngredientFormComponent'>
+      <div className="whiteContainerForm">
+        <div className='component-heading'>
+          <h1>{formData?.id ? 'Edit Ingredient' : 'Add Ingredient'}</h1>
+        </div>
+        <div className="form-container">
+          <input
+            type="text"
+            value={name}
             placeholder="name"
             onChange={(e) => setName(e.target.value)}
-            />
-            <textarea 
-            value={description} 
+          />
+          <input
+            type={"text"}
+            value={description}
             placeholder="description"
             onChange={(e) => setDescription(e.target.value)}
-            />
-            <input 
-            type="text" 
-            value={amount}  
+          />
+          <input
+            type="text"
+            value={amount}
             placeholder="amount"
             onChange={(e) => setAmount(e.target.value)}
+          />
+          <div className='buttonContainer'>
+            <Button
+              size={'small'}
+              buttonText={'Cancel'}
+              buttonType={'default'}
+              onClickFunc={() => cancelFunc()}
             />
-            <button 
-            type='button' 
-            className={`submitButton`} 
-            onClick={() => submitFunc()}
-            >Login</button>
-        </form>
+            <Button
+              size={'small'}
+              buttonText={'Add'}
+              buttonType={'primary'}
+              onClickFunc={() => submitFunc()}
+            />
+          </div>
+        </div>
+      </div>
+    </form>
   )
 }
 

@@ -1,32 +1,75 @@
-.RecipeFormComponent {
-    width: 100%;
-    padding-top: 40px;
-    p {
-        color: red;
+@import '../../styles/index.scss';
+
+.IngredientFormComponent {
+  background-color: $ternary;
+    padding: 20px 15px;
+    border-radius: 7px;
+    margin-bottom: 10px;
+  .whiteContainerForm {
+    background-color: $secondary;
+    border-radius: 7px;
+    padding: 10px;
+
+    @media screen and (min-width: $desktop) {
+      padding: 20px 10px;
     }
-    input, textarea {
-        font-family: "Roboto", sans-serif;
+
+    @media screen and (min-width: $widescreen) {
+      padding: 20px 15px;
+    }
+
+    .component-heading {
+      display: flex;
+      justify-content: space-between;
+
+      h1 {
+        font-family: $font-family;
+        color: $primary-text-color;
+        font-size: 20px;
+        letter-spacing: 1px;
+        font-weight: 500;
+      }
+    }
+
+    .form-container {
+      padding: 10px 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+
+      input {
+        font-family: $font-family;
         outline: 0;
-        background: #f2f2f2;
-        width: 100%;
+        background: $ternary;
         border: 0;
         margin: 0 0 15px;
         padding: 15px;
         box-sizing: border-box;
         font-size: 14px;
+        border-radius: 5px;
       }
-      button {
-        font-family: "Roboto", sans-serif;
-        text-transform: uppercase;
-        outline: 0;
-        background: #07ad90;
+
+      input,
+      .buttonContainer {
         width: 100%;
-        border: 0;
-        padding: 15px;
-        color: #FFFFFF;
-        font-size: 14px;
-        -webkit-transition: all 0.3 ease;
-        transition: all 0.3 ease;
-        cursor: pointer;
+
+        @media screen and (min-width: $tablet) {
+          width: 48%;
+        }
+
+        @media screen and (min-width: $desktop) {
+          width: 24%;
+        }
       }
+
+      .buttonContainer {
+        display: flex;
+        justify-content: space-around;
+      }
+    }
+  }
+
+
+
 }

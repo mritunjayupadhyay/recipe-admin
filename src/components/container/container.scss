@@ -2,7 +2,7 @@
 .Container {
     padding: 15px;
     margin: 0 auto;
-    max-width: maxWidthContainer;
+    max-width: $maxWidthContainer;
     @media screen and (min-width: $tablet) {
         padding: 15px 20px;
     }

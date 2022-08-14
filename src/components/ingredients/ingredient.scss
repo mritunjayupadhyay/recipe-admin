@@ -1,0 +1,48 @@
+@import '../../styles/index.scss';
+.IngredientComponent {
+    margin-top: 60px;
+    .whiteContainer {
+        background-color: $secondary;
+        border-radius: 7px;
+        padding: 10px 5px;
+
+        @media screen and (min-width: $desktop) {
+            padding: 20px 10px;
+        }
+
+        @media screen and (min-width: $widescreen) {
+            padding: 20px 15px;
+        }
+        .component-heading {
+            display: flex;
+            justify-content: space-between;
+    
+            h1 {
+                font-family: $font-family;
+                color: $primary-text-color;
+                font-size: 20px;
+                letter-spacing: 1px;
+                font-weight: 500;
+            }
+        }
+        .ingredient-list-container {
+            .ingredient-list {
+                list-style: decimal;
+                margin: 0;
+                padding-left: 30px;
+                .ingredient-list-item {
+                    position: relative;
+                    border-bottom: 1px solid #a1a5b7;
+                    padding-top: 25px;
+                    &:last-child {
+                        border-bottom: 0;
+                    }
+                }
+            }
+            .create-ingredient-container {
+                padding-top: 30px;
+            }
+        }
+        
+    }
+}

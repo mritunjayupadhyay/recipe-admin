@@ -20,7 +20,7 @@ function App() {
   // }
   return (
     <div className="App">
-      <HorizontalNav show={!!(user)} />
+      <HorizontalNav show={!!user} />
       <Routes>
         <Route 
         path="/" 
