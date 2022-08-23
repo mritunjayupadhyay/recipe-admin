@@ -46,9 +46,7 @@ function App() {
         <Route 
         path="/:recipeId" 
         element={
-          <PrivateRoute>
-            <Display />
-          </PrivateRoute>
+          <Display />
         } />
         <Route path="/login" element={<Auth />} />
         <Route path="*" element={<Navigate to="/" />} />

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Swal from "sweetalert2";
 import './ingredient-form.scss';
 import Button from '../button/Button';
 
@@ -12,6 +13,18 @@ function IngredientForm({ getIngredientFormData, formData, cancelFunc }) {
   // const [recipePic, setRecipePic] = useState('')
 
   const submitFunc = () => {
+    if (!name) {
+      Swal.fire({
+        title: 'Name can not be empty',
+        icon: 'error',
+      });
+    }
+    if (!amount) {
+      Swal.fire({
+        title: 'Amount can not be empty',
+        icon: 'error',
+      });
+    }
     return getIngredientFormData({
       name, description, amount,
       id: formData?.id

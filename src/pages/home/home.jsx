@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MdDragIndicator } from 'react-icons/md';
 import QRCode from 'qrcode';
+import Swal from "sweetalert2";
 import { useSelector, useDispatch } from 'react-redux';
 import Button from '../../components/button/Button';
 import Container from '../../components/container/Container';
@@ -36,9 +37,12 @@ function Home() {
     const printQr = async () => {
         console.log("selected recipes", selectedRecipes);
         if (selectedRecipes.length === 0) {
-            alert('No recipe is selected');
+            Swal.fire({
+                title: 'No recipe is selected',
+                icon: 'error',
+              });
         }
-        const urls = selectedRecipes.map((recipeId) => `${process.env.REACT_APP_BASE_URL}/recipe/${recipeId}`);
+        const urls = selectedRecipes.map((recipeId) => `recipe/${recipeId}`);
         const images = await Promise.all(
             urls.map((url) =>
                 QRCode.toString(url, {
@@ -108,7 +112,7 @@ function Home() {
                     {recipes?.length ?
                         <ul>
                             <li className='list-header'>
-                                <div>
+                                <div style={{ paddingLeft: 35 }}>
                                 <span>name</span>
                                 </div>
                                 <div className='tabletView'>

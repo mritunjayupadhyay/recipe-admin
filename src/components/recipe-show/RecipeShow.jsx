@@ -30,6 +30,12 @@ function RecipeShow({ recipe}) {
                       <div className="description-part">
                       <h2 className='product-name'>{ recipe.name }</h2>
                       <p className='product-description'>{ recipe.description }</p>
+                      <div className='non-veg-indicator-container'>
+                          <div className='non-veg-indicator-box'>
+                            <div className={`non-veg-indicator-circle ${recipe?.nonVeg ? 'nonVeg' : 'veg'}`}></div>
+                          </div>
+                          <span className='non-veg-indicator-text'>{recipe?.nonVeg ? 'nonVeg' : 'veg'}</span>
+                      </div>
                       </div>
                     </div>
                 </div>
