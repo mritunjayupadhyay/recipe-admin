@@ -42,7 +42,7 @@ function Home() {
                 icon: 'error',
               });
         }
-        const urls = selectedRecipes.map((recipeId) => `recipe/${recipeId}`);
+        const urls = selectedRecipes.map((recipeId) => `${process.env.REACT_APP_BASE_URL}/recipe/${recipeId}`);
         const images = await Promise.all(
             urls.map((url) =>
                 QRCode.toString(url, {
