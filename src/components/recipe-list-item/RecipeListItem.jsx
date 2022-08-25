@@ -5,7 +5,7 @@ import { navigationRouter } from '../../helpers/navigation-router';
 import DropdownComponent from '../dropdown/Dropdown';
 import './recipe-list-item.scss';
 import Checkbox from '../checkbox/Checkbox';
-function RecipeListItem({ recipe, deleteRecipe, selectRecipe }) {
+function RecipeListItem({ recipe, deleteRecipe, selectRecipe, isSelected }) {
   const clickAction = (text) => {
     if (text.toLowerCase() === 'edit') {
       navigationRouter.navigate(`${recipe?.id}/edit`)
@@ -21,6 +21,7 @@ function RecipeListItem({ recipe, deleteRecipe, selectRecipe }) {
       <Checkbox
           title={''}
           name={recipe?.id} 
+          checked={isSelected}
           handleCheckboxClick={(data) => selectRecipe(data)}
         />
       <div className='text-container'>
