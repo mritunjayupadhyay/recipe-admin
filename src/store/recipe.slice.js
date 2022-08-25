@@ -44,7 +44,7 @@ function createExtraActions() {
             })
             .then(response => {
                 console.log("response from server", response);
-                const { data, error } = response.data;
+                const { error } = response.data;
                 if (error === false) {
                     return {
                         recipeId
@@ -137,16 +137,21 @@ const createExtraReducer = (builder) => {
     })
 
     // To delete a recipe
+    builder.addCase(extraActions?.deleteRecipe?.pending, state => {
+        state.loading = true;
+    })
     builder.addCase(extraActions?.deleteRecipe?.fulfilled, (state, action) => {
         // state.loading = false
         console.log("payload in delete recipe", action.payload);
         state.recipes = [...state.recipes]
                             .filter((item) => item?.id !== action.payload.recipeId);
         state.error = '';
+        state.loading = false;
     })
     builder.addCase(extraActions?.deleteRecipe?.rejected, (state, action) => {
         // state.loading = false;
-        state.error = action?.error?.message
+        state.error = action?.error?.message;
+        state.loading = false;
     })
 
     // To create recipe

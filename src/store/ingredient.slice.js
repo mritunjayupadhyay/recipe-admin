@@ -1,9 +1,11 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, createAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 const initialState = {
     // initialize state from local storage to enable user to stay logged in
     ingredients: [],
     newIngredient: null,
+    readyToCreate: false,
+    readyToEdit: 0,
     error: '',
     loading: false
 };
@@ -87,6 +89,21 @@ function createExtraActions() {
 }
 
 const extraActions = createExtraActions();
+const readyToCreate = createAction('ingredient/readyToCreate')
+const readyToEdit = createAction('ingredient/readyToEdit')
+const clearEditOrCreate = createAction('ingredient/clearEditOrCreate');
+// const createReducers = createReducer(initialState, (builder) => {    
+//     builder
+//       .addCase(readyToCreate, (state, action) => {
+//         state.readyToCreate = action.payload;
+//         state.readyToEdit = 0;
+//         console.log("state value", state, action.payload);
+//       })
+//       .addCase(readyToEdit, (state, action) => {
+//         state.readyToCreate = false;
+//         state.readyToEdit = action.payload;
+//       })
+// })
 
 const createExtraReducer = (builder) => {
     builder.addCase(extraActions?.getIngredients?.pending, state => {
@@ -101,14 +118,18 @@ const createExtraReducer = (builder) => {
         state.loading = false;
         state.error = action?.error?.message
     })
+    builder.addCase(extraActions?.deleteIngredient?.pending, state => {
+        state.loading = true;
+    })
     builder.addCase(extraActions?.deleteIngredient?.fulfilled, (state, action) => {
         // state.loading = false
         console.log("payload in delete recipe", action.payload);
         if (action.payload.error === false) {
             state.ingredients = [...state.ingredients]
-                            .filter((item) => item?.name !== action?.meta?.arg);
+                            .filter((item) => item?.id !== action?.meta?.arg?.ingredientId);
         }
         state.error = '';
+        state.loading = false;
     })
     builder.addCase(extraActions?.deleteIngredient?.rejected, (state, action) => {
         // state.loading = false;
@@ -120,6 +141,8 @@ const createExtraReducer = (builder) => {
     builder.addCase(extraActions?.createIngredient?.fulfilled, (state, action) => {
         state.loading = false
         state.newIngredient = action?.payload?.data
+        state.ingredients.push(action?.payload?.data)
+        state.readyToCreate = false;
         state.error = '';
     })
     builder.addCase(extraActions?.createIngredient?.rejected, (state, action) => {
@@ -133,13 +156,48 @@ const createExtraReducer = (builder) => {
         state.loading = false
         console.log("payload", action.payload);
         // state.newIngredient = action?.payload?.data
+        state.ingredients = state.ingredients.map((ingredient) => {
+            if (ingredient?.id === action?.payload?.data?.id) {
+                return action?.payload?.data;
+            }
+            return ingredient;
+        })
+        state.readyToEdit = 0;
         state.error = '';
     })
     builder.addCase(extraActions?.editIngredient?.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message
     })
+    .addCase(readyToCreate, (state, action) => {
+        state.readyToCreate = action.payload;
+        state.readyToEdit = 0;
+        console.log("state value", state, action.payload);
+    })
+    .addCase(readyToEdit, (state, action) => {
+        state.readyToCreate = false;
+        state.readyToEdit = action.payload;
+    })
+    .addCase(clearEditOrCreate, (state, action) => {
+        state = initialState;
+    })
 }
+
+// function createReducers() {
+//     return {
+//         clearNewRecipe,
+//         removeShowRecipe
+//     };
+
+//     function clearNewRecipe(state) {
+//         state.newRecipe = null;
+//     }
+//     function removeShowRecipe(state) {
+//         state.showRecipe = null;
+//     }
+// }
+
+
 
 const slice = createSlice({
     name: 'ingredient',
@@ -149,5 +207,5 @@ const slice = createSlice({
 
 // exports
 export const ingredientsActions = { 
-    ...slice.actions, ...extraActions };
+    ...slice.actions, readyToCreate, readyToEdit, clearEditOrCreate, ...extraActions };
 export const ingredientsReducer = slice.reducer;

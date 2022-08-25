@@ -4,33 +4,53 @@ import Button from '../button/Button';
 import { navigationRouter } from '../../helpers/navigation-router';
 import DropdownComponent from '../dropdown/Dropdown';
 import './recipe-list-item.scss';
-function RecipeListItem({ recipe, deleteRecipe }) {
+import Checkbox from '../checkbox/Checkbox';
+function RecipeListItem({ recipe, deleteRecipe, selectRecipe, isSelected }) {
   const clickAction = (text) => {
-    if (text === 'edit') {
+    if (text.toLowerCase() === 'edit') {
       navigationRouter.navigate(`${recipe?.id}/edit`)
     }
-    else if (text === 'delete') {
+    else if (text.toLowerCase() === 'delete') {
       deleteRecipe(recipe?.id);
     }
   }
+
   return (
     <li className='RecipeListItem' key={recipe?.id}>
       <div className='recipe-item-container'>
-          <span>{recipe?.name}</span>
+      <Checkbox
+          title={''}
+          name={recipe?.id} 
+          checked={isSelected}
+          handleCheckboxClick={(data) => selectRecipe(data)}
+        />
+      <div className='text-container'>
+        
+        <span>{recipe?.name}</span>
+      </div>
       </div>
       <div className='recipe-item-container tabletView'>
-        <span>{recipe?.description}</span>
+        <div className='text-container'>
+          <span>{recipe?.description}</span>
+        </div>
       </div>
-      <div>
-        <img src="" alt="" />
+      <div className='recipe-item-container'
+      >
+        <div className="image-container"
+            style={{ backgroundImage: `url(${process.env.REACT_APP_S3_URL_PREFIX}/${recipe?.recipePic})`}}
+        >
+          <Link to={`${recipe?.id}`}>
+            {/* <img src={`${process.env.REACT_APP_S3_URL_PREFIX}/${recipe?.recipePic}`} alt="" /> */}
+          </Link>
+        </div>
       </div>
       <div className='recipe-item-container mobileView'>
-      {/* <Link to={`${recipe?.id}/edit`}>Edit</Link> */}
-      <DropdownComponent 
-       title={'Actions'}
-       list= {['Edit', 'Delete']}
-       onClickFunc={(text) => clickAction(text)}
-      />
+        {/* <Link to={`${recipe?.id}/edit`}>Edit</Link> */}
+        <DropdownComponent
+          title={'Actions'}
+          list={['Edit', 'Delete']}
+          onClickFunc={(text) => clickAction(text)}
+        />
       </div>
       <div className='recipe-item-container desktopView'>
         <Button

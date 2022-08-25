@@ -1,11 +1,42 @@
+@import '../../styles/index.scss';
 .CreateRecipeComponent {
     padding-top: 50px;
-    .CreateRecipeFormContainer {
-        margin: 0 auto 0 auto;
-        width: 90%;
-        max-width: 400px;
-        border: 2px solid #07ad90;
-        padding: 15px;
-        background-color: #fff;
+    position: relative;
+    .goBackHomePageContainer {
+        position: absolute;
+        top: 0;
+        text-align: right;
+        width: 100%;
+    }
+    .component-heading {
+        display: flex;
+        justify-content: space-between;
+        h1 {
+            font-family: $font-family;
+            color: $primary-text-color;
+            font-size: 20px;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+    }
+    // .CreateRecipeFormContainer {
+    //     margin: 0 auto 0 auto;
+    //     width: 90%;
+    //     max-width: 400px;
+    //     border: 2px solid #07ad90;
+    //     padding: 15px;
+    //     background-color: #fff;
+    // }
+    .whiteContainer {
+        background-color: $secondary;
+        border-radius: 7px;
+        padding: 10px 5px;
+        position: relative;
+        @media screen and (min-width: $desktop){
+            padding: 20px 10px;
+        }
+        @media screen and (min-width: $desktop){
+            padding: 20px 15px;
+        }
     }
 }
