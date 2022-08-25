@@ -31,6 +31,10 @@ function Home() {
             }
         }
     }
+    const checkIfSelected = (recipeId) => {
+        const arr = selectedRecipes.filter((r) => r === recipeId);
+        return !!arr.length;
+    };
     const createRecipe = () => {
         navigationRouter.navigate('/create')
     }
@@ -55,6 +59,10 @@ function Home() {
         images.forEach((image, index) => {
             saveSvg(image, `${selectedRecipes[index]}.svg`);
         });
+
+        // Unselect all recipe
+        setSelectedRecipes([]);
+        window.reload();
     }
 
     // Qr code generation
@@ -129,6 +137,7 @@ function Home() {
                                 <RecipeListItem 
                                     key={recipe.id}
                                     recipe={recipe}
+                                    isSelected={checkIfSelected(recipe.id)}
                                     selectRecipe={(data) => selectRecipe(data)} 
                                     deleteRecipe={(id) => deleteRecipe(id)} 
                                 />
