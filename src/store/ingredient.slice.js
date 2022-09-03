@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice, createAction } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { defaultError } from '../app.constant';
+import { arrayToStringTransformer } from '../helpers/transform-toString';
 const initialState = {
     // initialize state from local storage to enable user to stay logged in
     ingredients: [],
@@ -28,6 +30,11 @@ function createExtraActions() {
                 console.log("response from server", response);
                 return response?.data;
               })
+              .catch((error) => {
+                const errorData = error?.response?.data || defaultError;
+                console.log("we got some error", errorData);
+                return errorData;
+            } )
         })
     }
     function deleteIngredient() {
@@ -45,6 +52,11 @@ function createExtraActions() {
             .then(response => {
                 console.log("response from server", response);
                 return response?.data;
+            })
+            .catch((error) => {
+                const errorData = error?.response?.data || defaultError;
+                console.log("we got some error", errorData);
+                return errorData;
             })
         })
     }
@@ -65,6 +77,11 @@ function createExtraActions() {
                 console.log("response from server", response);
                 return response?.data;
             })
+            .catch((error) => {
+                const errorData = error?.response?.data || defaultError;
+                console.log("we got some error", errorData);
+                return errorData;
+            } )
         })
     }
     function editIngredient() {
@@ -84,6 +101,11 @@ function createExtraActions() {
                 console.log("response from server", response);
                 return response?.data;
             })
+            .catch((error) => {
+                const errorData = error?.response?.data || defaultError;
+                console.log("we got some error", errorData);
+                return errorData;
+            } )
         })
     }
 }
@@ -92,6 +114,7 @@ const extraActions = createExtraActions();
 const readyToCreate = createAction('ingredient/readyToCreate')
 const readyToEdit = createAction('ingredient/readyToEdit')
 const clearEditOrCreate = createAction('ingredient/clearEditOrCreate');
+const removeError = createAction('ingredient/removeError');
 // const createReducers = createReducer(initialState, (builder) => {    
 //     builder
 //       .addCase(readyToCreate, (state, action) => {
@@ -110,9 +133,16 @@ const createExtraReducer = (builder) => {
         state.loading = true;
     })
     builder.addCase(extraActions?.getIngredients?.fulfilled, (state, action) => {
-        state.loading = false
-        state.ingredients = action?.payload?.data
-        state.error = '';
+        const { data, error, message } = action?.payload;
+        if (error === false) {
+            state.loading = false
+            state.ingredients = data
+            state.error = '';
+        } else {
+            state.loading = false;
+            state.error = arrayToStringTransformer(message)
+        }
+        
     })
     builder.addCase(extraActions?.getIngredients?.rejected, (state, action) => {
         state.loading = false;
@@ -123,13 +153,16 @@ const createExtraReducer = (builder) => {
     })
     builder.addCase(extraActions?.deleteIngredient?.fulfilled, (state, action) => {
         // state.loading = false
-        console.log("payload in delete recipe", action.payload);
-        if (action.payload.error === false) {
+        const { data, error, message } = action?.payload;
+        if (error === false) {
+            state.loading = false
             state.ingredients = [...state.ingredients]
-                            .filter((item) => item?.id !== action?.meta?.arg?.ingredientId);
+                                .filter((item) => item?.id !== data?.ingredientId);
+            state.error = '';
+        } else {
+            state.loading = false;
+            state.error = arrayToStringTransformer(message)
         }
-        state.error = '';
-        state.loading = false;
     })
     builder.addCase(extraActions?.deleteIngredient?.rejected, (state, action) => {
         // state.loading = false;
@@ -139,11 +172,17 @@ const createExtraReducer = (builder) => {
         state.loading = true;
     })
     builder.addCase(extraActions?.createIngredient?.fulfilled, (state, action) => {
-        state.loading = false
-        state.newIngredient = action?.payload?.data
-        state.ingredients.push(action?.payload?.data)
-        state.readyToCreate = false;
-        state.error = '';
+        const { data, error, message } = action?.payload;
+        if (error === false) {
+            state.loading = false
+            state.newIngredient = data
+            state.ingredients.push(data)
+            state.readyToCreate = false;
+            state.error = '';
+        } else {
+            state.loading = false;
+            state.error = arrayToStringTransformer(message)
+        }
     })
     builder.addCase(extraActions?.createIngredient?.rejected, (state, action) => {
         state.loading = false;
@@ -153,7 +192,10 @@ const createExtraReducer = (builder) => {
         state.loading = true;
     })
     builder.addCase(extraActions?.editIngredient?.fulfilled, (state, action) => {
-        state.loading = false
+        
+        const { data, error, message } = action?.payload;
+        if (error === false) {
+            state.loading = false
         console.log("payload", action.payload);
         // state.newIngredient = action?.payload?.data
         state.ingredients = state.ingredients.map((ingredient) => {
@@ -164,6 +206,10 @@ const createExtraReducer = (builder) => {
         })
         state.readyToEdit = 0;
         state.error = '';
+        } else {
+            state.loading = false;
+            state.error = arrayToStringTransformer(message)
+        }
     })
     builder.addCase(extraActions?.editIngredient?.rejected, (state, action) => {
         state.loading = false;
@@ -180,6 +226,10 @@ const createExtraReducer = (builder) => {
     })
     .addCase(clearEditOrCreate, (state, action) => {
         state = initialState;
+    })
+    .addCase(removeError, (state, action) => {
+        state.loading = false;
+        state.error = ''
     })
 }
 
@@ -207,5 +257,5 @@ const slice = createSlice({
 
 // exports
 export const ingredientsActions = { 
-    ...slice.actions, readyToCreate, readyToEdit, clearEditOrCreate, ...extraActions };
+    ...slice.actions, readyToCreate, readyToEdit, clearEditOrCreate, removeError, ...extraActions };
 export const ingredientsReducer = slice.reducer;

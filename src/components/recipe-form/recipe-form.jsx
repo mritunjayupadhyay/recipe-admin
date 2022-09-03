@@ -74,7 +74,7 @@ function RecipeForm({ getRecipeFormData, formData }) {
       </div>
       <Button
         size={'large'}
-        buttonText={'Create Recipe'}
+        buttonText={!!formData ? 'Edit Recipe' :'Create Recipe'}
         buttonType={'primary'}
         onClickFunc={() => submitFunc()}
       />
