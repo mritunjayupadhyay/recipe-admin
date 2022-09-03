@@ -30,10 +30,12 @@ function Edit() {
   const { showRecipe } = useSelector(x => x.recipes);
 
   const getRecipeFormData = (formData) => {
-    return dispatch(recipesActions.editRecipe({
+    dispatch(recipesActions.editRecipe({
       recipeId: showRecipe.id,
       formData
     }));
+    setEditRecipe(false);
+    return;
   }
   return (
     <div className='EditRecipeComponent'>
@@ -59,10 +61,19 @@ function Edit() {
             </div>
             {editRecipe
               ? <div className='CreateRecipeFormContainer'>
-                <RecipeForm getRecipeFormData={getRecipeFormData} />
+                <RecipeForm 
+                  getRecipeFormData={getRecipeFormData} 
+                  formData={{
+                    name: showRecipe?.name,
+                    image: showRecipe.recipePic,
+                    description: showRecipe?.description,
+                    nonVeg: showRecipe?.nonVeg,
+                    id: showRecipe?.id
+                  }}
+                />
               </div>
               : <div className='CreateRecipeDisplayContainer'>
-                <RecipeShow recipe={showRecipe} />
+                {showRecipe ? <RecipeShow recipe={showRecipe} /> : null}
               </div>
             }
           </div>
