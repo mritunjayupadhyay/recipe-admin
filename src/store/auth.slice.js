@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { defaultError } from '../app.constant';
 import { navigationRouter } from '../helpers/navigation-router';
 const initialState = {
     // initialize state from local storage to enable user to stay logged in
@@ -26,6 +27,11 @@ function createExtraActions() {
                 console.log("response from server", response);
                 return response.data;
               })
+              .catch((error) => {
+                const errorData = error?.response?.data || defaultError;
+                console.log("we got some error", errorData);
+                return errorData;
+            } )
         })
     }
 }
@@ -34,7 +40,8 @@ const extraActions = createExtraActions();
 
 function createReducers() {
     return {
-        logout
+        logout,
+        removeError
     };
 
     function logout(state) {
@@ -44,6 +51,9 @@ function createReducers() {
         localStorage.removeItem('authToken');
         navigationRouter.navigate('/login');
     }
+    function removeError(state) {
+        state.error = '';
+    }
 }
 
 const createExtraReducer = (builder) => {
@@ -51,21 +61,33 @@ const createExtraReducer = (builder) => {
         state.loading = true;
     })
     builder.addCase(extraActions.login.fulfilled, (state, action) => {
-        state.loading = false
-        state.authToken = action.payload.data.token;
-        state.user = action.payload.data.user
-        state.error = '';
-        localStorage.setItem('authToken', action.payload.data.token);
-        localStorage.setItem('user', JSON.stringify(action.payload.data.user));
-        navigationRouter.navigate('/')
+        const { data, error, message } = action.payload;
+        if (error === false) {
+            state.loading = false
+            state.authToken = data?.token;
+            state.user = data?.user;
+            state.error = '';
+            localStorage.setItem('authToken', action.payload.data.token);
+            localStorage.setItem('user', JSON.stringify(action.payload.data.user));
+            navigationRouter.navigate('/');
+        } else {
+            state.loading = false;
+            state.user = null;
+            state.authToken = '';
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            state.error = message;
+        }
+        
     })
     builder.addCase(extraActions.login.rejected, (state, action) => {
+        const { message } = action.payload;
         state.loading = false;
         state.user = null;
         state.authToken = '';
         localStorage.removeItem('authToken');
         localStorage.removeItem('user');
-        state.error = action.error.message
+        state.error = message;
     })
 }
 
